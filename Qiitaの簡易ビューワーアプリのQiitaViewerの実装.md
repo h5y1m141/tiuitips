@@ -2,29 +2,60 @@
 
 この章ではQiitaの簡易ビューワーアプリのQiitaViewerの実装について解説していきます。これから実装するアプリの機能についてまずは簡単にまとめておこうと思います
 
-## QiitaViewの機能について
+## QiitaViewerの機能について
 
 本書での目的は「標準のAPIを利用しつつも、少ない手間とちょっとしたアイデアで、標準APIを使ってる用に見せないためのTIPSを紹介する」ことを主眼としているため、ビューワーアプリとしての機能はシンプルなものにとどめようと考えています。
 
-そのためQiitaの投稿情報を取得して、取得した投稿情報をTableViewを利用して配置する程度にとどめて、それ以外の機能、例えば、Qiitaへのログイン処理や、Qiita上のユーザのフォロー機能といったQiitaのAPIをふる活用することは目指さないことにします。
+そのためQiitaの投稿情報を取得して、取得した投稿情報をTableViewを利用して配置する程度にとどめて、それ以外の機能、例えば、Qiitaへのログイン処理や、Qiita上のユーザのフォロー機能といったQiitaのAPIをフル活用することは目指さないことにします。
 
+## QiitaViewer用にプロジェクトを作成する
 
-## Titanium Studioを起動してプロジェクトを作成する
+Titanium Studioを起動して、QiitaViewer用にプロジェクトを作成するためにFile → New → Mobile Project と進みます
+
+![選択メニュー](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-project-001.jpg)
+
+Projectのテンプレートを選択する画面が標示されたら、「Default Project」を選択して次に進みます
+
+![Projectのテンプレート選択画面](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-project-002.jpg)
+
+Projectの詳細情報を入力する画面が標示されるので以下のように入力/選択して、finishボタンをクリックします
 
 - プロジェクト名:QiitaViewer
-- AppID:info.h5y1m141.ti.qiitaviewer
+- AppID:info.ti.qiitaviewer
 - ターゲットOS:iPhone、Androidのみチェック。iPad、MobileWebはオフにする
 
-## Hello World的なアプリが起動したら、ひとまずbuildをしてみる
+![Projectの詳細情報入力画面](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-project-003.jpg)
+
+しばらくすると、以下の様な画面が標示されて、Projectの初期設定が完了します
+
+![Project設定完了後の画面](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-project-004.jpg)
+
+念のためこの状態でbuildが出来るかどうか確認するため、Titanium StudioのApp Explorerのrunのアイコンを選択します
+
+![App Explorerの画面キャプチャ](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-project-005.jpg)
+
+iPhone Simulatorを選択した場合：以下の様な画面になります
+
+![iPhone Simulator](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-project-006.jpg)
+
+Android Emulatorを選択した場合：以下の様な画面になります
+
+![Android Emulator](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-project-007.jpg)
+
+Projectの設定が完了したので、次から具体的にQiitaViewerの機能を実装していきます
+
 
 ## Qiitaの投稿情報を取得する時のWebAPIについて
 
-まずは、Qiitaの開発者向けのAPIを通じて、投稿情報を取得する機能を実装しますが、その前にQiitaの投稿情報を取得する時のWebAPIについて簡単に説明します
+Qiitaの開発者向けのAPIを通じて投稿情報を取得する機能を実装しますが、その前にQiitaの投稿情報を取得する時のWebAPIについて簡単に説明します
 
-以下URLにアクセスすることでパブリックな新着投稿を取得することができます。
-https://qiita.com/api/v1/items
+ブラウザで以下URLにアクセスすることでパブリックな新着投稿を取得することができます。
+[https://qiita.com/api/v1/items](https://qiita.com/api/v1/items)
 
-投稿情報は以下の様なJSON形式になります
+※Google Chromeでアクセスした時の例
+![ブラウザでアクセスした時のキャプチャ](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-webapi-001.jpg)
+
+投稿情報は以下の様なJSON形式になりますが、詳しい情報を知りたい方は、[Qiitaのサイトをご覧ください](http://qiita.com/docs#13)
 
 ```javascript
 [{"id": 1,
@@ -57,21 +88,18 @@ https://qiita.com/api/v1/items
 ]
 ```
 
-詳しい情報を知りたい方は、[Qiitaのサイトをご覧ください](http://qiita.com/docs#13)
-
-
 ## Qiitaの投稿情報を取得する機能を実装する
 
-QiitaのようなWebAPIと連携するアプリを開発する場合にTitanium Mobileでは、標準APIのhttpCLientを活用します。
+Titanium MobileでQiitaのようなWebAPIと連携するアプリを開発する場合に、標準機能のhttpCLientを活用することで簡単に実現できます
 
 プロジェクト作成時に自動的に生成されたapp.jsの中身を以下のように書き換えます
 
 ```javascript
 var xhr,url,httpVerb;
 qiitaURL = "https://qiita.com/api/v1/items"
-httpVerb = "GET";
+method = "GET";
 xhr = Ti.Network.createHTTPClient();
-xhr.open(httpVerb,qiitaURL); // (1)
+xhr.open(method,qiitaURL); // (1)
 xhr.onload = function(){
   var body;
   if (this.status === 200) {
