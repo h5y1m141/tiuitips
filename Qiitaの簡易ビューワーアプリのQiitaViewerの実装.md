@@ -117,11 +117,11 @@ var xhr,url,method;
 qiitaURL = "https://qiita.com/api/v1/items"
 method = "GET";
 xhr = Ti.Network.createHTTPClient();
-xhr.open(method,qiitaURL); // (1)
+xhr.open(method,qiitaURL);
 xhr.onload = function(){
   var body;
   if (this.status === 200) {
-    body = JSON.parse(this.responseText); // (2)
+    body = JSON.parse(this.responseText);
 	Ti.API.info(body);
   } else {
     Ti.API.info("error:status code is " + this.status);
@@ -148,6 +148,40 @@ Android Emulatorを選択した場合：以下の様な画面になります
 
 シミュレーターの画面には何も標示されずコンソール上に複数の文字が標示されるかと思いますので、その点が確認できたらOKなので、次で画面に表示する方法について解説します
 
+### Qiitaの投稿情報を取得する機能の解説
+
+ご存じの方が多いかもしれませんが、念のためTitanium MobileのhttpClientについて解説します
+
+```javascript
+var xhr,url,method;
+qiitaURL = "https://qiita.com/api/v1/items"
+method = "GET";
+xhr = Ti.Network.createHTTPClient(); // (1)
+xhr.open(method,qiitaURL);  // (2)
+xhr.onload = function(){
+  var body;
+  if (this.status === 200) { // (3)
+    body = JSON.parse(this.responseText); // (4)
+	Ti.API.info(body);
+  } else {
+    Ti.API.info("error:status code is " + this.status);
+  }
+}
+xhr.onerror = function(e) { // (5)
+  var error;
+  error = JSON.parse(this.responseText);
+  Ti.API.info(error.error);
+}
+xhr.timeout = 5000;
+xhr.send();
+```
+(1)httpClientを利用するためのオブジェクトを生成します
+(2)open()メソッドをQiitaの投稿の取得をする場合には、GETメソッドにて
+
+詳しくは[Qiitaのドキュメント](http://qiita.com/docs#13)を参照してください
+(3)
+(4)
+(5)
 
 ## Qiitaの投稿情報を取得した後に画面に表示する
 
