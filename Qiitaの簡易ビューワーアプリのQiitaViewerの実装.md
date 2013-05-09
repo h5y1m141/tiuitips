@@ -1,11 +1,13 @@
 **Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
 
-- [Qiitaの簡易ビューワーアプリのQiitaViewerの実装](#qiitaの簡易ビューワーアプリのqiitaviewerの実装)
-- [QiitaViewerの機能について](#qiitaviewerの機能について)
+- [Qiitaの簡易ビューワーアプリ「QiitaViewer」の機能について](#qiitaの簡易ビューワーアプリ「qiitaviewer」の機能について)
 - [QiitaViewer用にプロジェクトを作成する](#qiitaviewer用にプロジェクトを作成する)
-- [Qiitaの投稿情報を取得する時のWebAPIについて](#qiitaの投稿情報を取得する時のwebapiについて)
-- [Qiitaの投稿情報を取得する機能を実装する](#qiitaの投稿情報を取得する機能を実装する)
-	- [最初にhttpCLientの使い方に慣れる](#最初にhttpclientの使い方に慣れる)
+- [Qiitaの投稿情報を取得する](#qiitaの投稿情報を取得する)
+	- [QiitaのWebAPIについて](#qiitaのwebapiについて)
+	- [Qiitaの投稿情報を取得する機能を実装する](#qiitaの投稿情報を取得する機能を実装する)
+- [Qiitaの投稿情報を取得した後に画面に表示する](#qiitaの投稿情報を取得した後に画面に表示する)
+	- [取得した結果をTableViewを活用して画面に表示する(1)](#取得した結果をtableviewを活用して画面に表示する1)
+	- [取得した結果をTableViewを活用して画面に表示する(2)](#取得した結果をtableviewを活用して画面に表示する2)
 
 ## Qiitaの簡易ビューワーアプリ「QiitaViewer」の機能について
 
