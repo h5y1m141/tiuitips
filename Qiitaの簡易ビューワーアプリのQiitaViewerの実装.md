@@ -113,8 +113,8 @@ Titanium MobileでQiitaのようなWebAPIと連携するアプリを開発する
 その後に以下を記述します
 
 ```javascript
-var xhr,url,method;
-qiitaURL = "https://qiita.com/api/v1/items"
+var xhr,qiitaURL,method;
+qiitaURL = "https://qiita.com/api/v1/items";
 method = "GET";
 xhr = Ti.Network.createHTTPClient();
 xhr.open(method,qiitaURL);
@@ -153,8 +153,8 @@ Android Emulatorを選択した場合：以下の様な画面になります
 ご存じの方が多いかもしれませんが、念のためTitanium MobileのhttpClientについて解説します
 
 ```javascript
-var xhr,url,method;
-qiitaURL = "https://qiita.com/api/v1/items"
+var xhr,qiitaURL,method;
+qiitaURL = "https://qiita.com/api/v1/items";
 method = "GET";
 xhr = Ti.Network.createHTTPClient(); // (1)
 xhr.open(method,qiitaURL);  // (2)
@@ -189,8 +189,77 @@ QiitaのようなWebAPIを通じて取得した情報をiPhone/Android上で表�
 
 ### 取得した結果をTableViewを活用して画面に表示する(1)
 
-Qiitaの開発者向けのAPIを通じて投稿情報を取得した結果をTableViewを活用して表示する方法について解説します。
+Qiitaの開発者向けのAPIを通じて投稿情報を取得した結果をTableViewを活用して以下のように表示する方法について解説します。
 
+![iPhone起動時の画面キャプチャ](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-httpClient-iphone-002.jpg)
+
+
+![Android起動時の画面キャプチャ](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-httpClient-android-002.jpg)
+
+まずは取得した投稿情報のタイトルのみを表示する以下のソースコードをサンプルに順次解説していきます。
+
+```javascript
+var xhr,qiitaURL,method,mainTable,win;
+mainTable = Ti.UI.createTableView({
+  width: 320,
+  height:480,
+  backgroundColor:"#fff",
+  left: 0,
+  top: 0
+});
+win = Ti.UI.createWindow({
+  title:'QiitaViewer'
+});
+
+qiitaURL = "https://qiita.com/api/v1/items";
+method = "GET";
+xhr = Ti.Network.createHTTPClient();
+xhr.open(method,qiitaURL);
+xhr.onload = function(){
+  var body,_i ,_len ,row ,rows,textLabel;
+  if (this.status === 200) {
+    body = JSON.parse(this.responseText);
+    rows = [];
+    for (_i = 0, _len = body.length; _i < _len; _i++) {
+      Ti.API.info(body[_i].title);
+      row = Ti.UI.createTableViewRow({
+        width: 'auto',
+        height:40,
+        borderWidth: 0,
+		className:'entry',
+        color:"#222"
+      });
+      textLabel = Ti.UI.createLabel({
+        width:'auto',
+        height:30,
+        top:5,
+        left:5,
+        color:'#222',
+        font:{
+          fontSize:16,
+          fontWeight:'bold'
+        },
+        text:body[_i].title
+      });
+      row.add(textLabel);
+      rows.push(row);
+    }
+    mainTable.setData(rows);
+    win.add(mainTable);
+    win.open();
+
+  } else {
+    Ti.API.info("error:status code is " + this.status);
+  }
+};
+xhr.onerror = function(e) {
+  var error;
+  error = JSON.parse(this.responseText);
+  Ti.API.info(error.error);
+};
+
+xhr.send();
+```
 
 
 ### 取得した結果をTableViewを活用して画面に表示する(2)
