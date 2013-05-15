@@ -24,13 +24,15 @@ Projectの詳細情報を入力する画面が標示されるので以下のよ�
 
 ![App Explorerの画面キャプチャ](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-project-005.jpg)
 
-iPhone Simulatorを選択した場合：以下の様な画面になります
+<table>
+<th>iPhone起動時の画面キャプチャ</th>
+<th>Android起動時の画面キャプチャ</th>
+<tr>
+<td>![iPhone Simulator](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-project-006.jpg)</td>
+<td>![Android Emulator](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-project-007.jpg)</td>
+</tr>
+</table>
 
-![iPhone Simulator](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-project-006.jpg)
-
-Android Emulatorを選択した場合：以下の様な画面になります
-
-![Android Emulator](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-project-007.jpg)
 
 Projectの設定が完了したので、次から具体的にQiitaViewerの機能を実装していきます
 
@@ -252,10 +254,17 @@ xhr.send();
 
 上記をbuildして、iPhone、AndroidのEmulatorで表示した場合以下の様になります
 
-![iPhone起動時の画面キャプチャ](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-httpClient-iphone-002.jpg)
+<table>
+<th>iPhone起動時の画面キャプチャ</th>
+<th>Android起動時の画面キャプチャ</th>
+<tr>
+<td>![iPhone起動時の画面キャプチャ](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-httpClient-iphone-002.jpg)
+</td>
+<td>![Android起動時の画面キャプチャ](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-httpClient-android-002.jpg)</td>
+</tr>
+</table>
 
 
-![Android起動時の画面キャプチャ](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-httpClient-android-002.jpg)
 
 
 ### 取得した結果をTableViewを活用して画面に表示する(2)
