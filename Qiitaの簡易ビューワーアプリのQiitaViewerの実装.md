@@ -87,9 +87,10 @@ Titanium Mobileで実装をはじめる前に、Qiitaの投稿情報を取得す
 
 Titanium MobileでQiitaのようなWebAPIと連携するアプリを開発する場合に、標準機能のhttpCLientを活用することで簡単に実現できます。まずはhttpCLientの使い方について解説をします。
 
-プロジェクト作成時に自動的に生成されたapp.jsの中身を全て削除します。
 
-その後に以下を記述します
+#### プロジェクト作成時に自動的に生成されたapp.jsの中身を全て削除します。
+
+#### その後に以下を記述します
 
 ```javascript
 var xhr,qiitaURL,method;
@@ -115,7 +116,7 @@ xhr.timeout = 5000;
 xhr.send();
 ```
 
-動作確認するために、buildします。
+#### 動作確認するために、buildします。
 
 iPhone Simulatorを選択した場合：以下の様な画面になります
 
@@ -166,21 +167,23 @@ xhr.send();
 
 (4)this.responseTextの値を確認することで、サーバから取得できた値をテキスト形式で取得できます。this.responseTextは見た目はJSON形式になっていますが、そのまま変数に代入すると文字列としてその後処理されてしまうため、JSON.parse()を使って、JSON化した状態で変数に格納します
 
-(5)例えば、QiitaのWebAPIにアクセスして、150リクエスト/1時間というAPIの利用制限に引っかかってしまう場合などはエラーになってしまいます。そのために、エラー発生時のイベント処理を記述しておきます
+(5)例えば、QiitaのWebAPIにアクセスして、150リクエスト/1時間というAPIの利用制限に引っかかってしまう場合などはエラーになり、その時にはonerrorイベントが呼び出されます。
 
+イメージとしては以下のような対応関係になります
+
+![httpClientのonloadとonerrorの対応関係](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-httpClient-overview-001.jpg)
 
 ## Qiitaの投稿情報を取得した後に画面に表示する
 
-QiitaのようなWebAPIを通じて取得した情報をiPhone/Android上で表示する際にTableViewを利用するかと思います
+Titanium Mobileの標準APIであるhttpCLientを活用して、Qiitaの投稿情報を取得する処理までは実装出来ましたので、今度は取得した情報を画面に表示する部分について解説します
 
 ### 取得した結果をTableViewを活用して画面に表示する(1)
 
-Qiitaの開発者向けのAPIを通じて投稿情報を取得した結果をTableViewを活用して以下のように表示する方法について解説します。
+Qiitaの開発者向けのAPIを通じて投稿情報を取得した結果をTableViewを活用して表示する方法について解説します。
 
-![iPhone起動時の画面キャプチャ](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-httpClient-iphone-002.jpg)
+図にすると以下の様な処理になります。
 
-
-![Android起動時の画面キャプチャ](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-httpClient-android-002.jpg)
+![概念図１](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-tableView-overview-001.jpg)
 
 まずは取得した投稿情報のタイトルのみを表示する以下のソースコードをサンプルに順次解説していきます。
 
@@ -206,16 +209,16 @@ xhr.onload = function(){
   if (this.status === 200) {
     body = JSON.parse(this.responseText);
     rows = [];
-    for (_i = 0, _len = body.length; _i < _len; _i++) {
+    for (_i = 0, _len = body.length; _i < _len; _i++) { // (1)
       Ti.API.info(body[_i].title);
-      row = Ti.UI.createTableViewRow({
+      row = Ti.UI.createTableViewRow({	// (2)
         width: 'auto',
         height:40,
         borderWidth: 0,
 		className:'entry',
         color:"#222"
       });
-      textLabel = Ti.UI.createLabel({
+      textLabel = Ti.UI.createLabel({	// (3)
         width:'auto',
         height:30,
         top:5,
@@ -227,10 +230,10 @@ xhr.onload = function(){
         },
         text:body[_i].title
       });
-      row.add(textLabel);
-      rows.push(row);
+      row.add(textLabel);		// (4)
+      rows.push(row);			// (5)
     }
-    mainTable.setData(rows);
+    mainTable.setData(rows);    // (6)
     win.add(mainTable);
     win.open();
 
@@ -247,7 +250,18 @@ xhr.onerror = function(e) {
 xhr.send();
 ```
 
+上記をbuildして、iPhone、AndroidのEmulatorで表示した場合以下の様になります
+
+![iPhone起動時の画面キャプチャ](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-httpClient-iphone-002.jpg)
+
+
+![Android起動時の画面キャプチャ](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-httpClient-android-002.jpg)
+
 
 ### 取得した結果をTableViewを活用して画面に表示する(2)
 
 先程は、タイトルのみ表示する方法について解説しましたが、タイトルだけではなく投稿したユーザのアイコンと本文の一部をTableViewを活用して表示する方法について解説します
+
+図にすると以下の様な処理になります。
+
+![概念図２](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-tableView-overview-002.jpg)
