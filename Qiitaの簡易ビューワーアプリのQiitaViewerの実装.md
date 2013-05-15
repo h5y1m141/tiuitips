@@ -28,8 +28,12 @@ Projectの詳細情報を入力する画面が標示されるので以下のよ�
 <th>iPhone起動時の画面キャプチャ</th>
 <th>Android起動時の画面キャプチャ</th>
 <tr>
-<td>![iPhone Simulator](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-project-006.jpg)</td>
-<td>![Android Emulator](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-project-007.jpg)</td>
+<td>
+<a href="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-project-006.jpg" target="_blank"><img src="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-project-006.jpg" alt="iPhone Simulator"></a>
+</td>
+<td>
+<a href="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-project-007.jpg" target="_blank"><img src="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-project-007.jpg" alt="iPhone Simulator"></a>
+</td>
 </tr>
 </table>
 
@@ -258,9 +262,11 @@ xhr.send();
 <th>iPhone起動時の画面キャプチャ</th>
 <th>Android起動時の画面キャプチャ</th>
 <tr>
-<td>![iPhone起動時の画面キャプチャ](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-httpClient-iphone-002.jpg)
+<td>
+<a href="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-httpClient-iphone-002.jpg" target="_blank"><img src="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-httpClient-iphone-002.jpg" alt="iPhone Simulator"></a>
 </td>
-<td>![Android起動時の画面キャプチャ](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-httpClient-android-002.jpg)</td>
+<td>
+<a href="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-httpClient-android-002.jpg" target="_blank"><img src="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-httpClient-android-002.jpg" alt="iPhone Simulator"></a>
 </tr>
 </table>
 
