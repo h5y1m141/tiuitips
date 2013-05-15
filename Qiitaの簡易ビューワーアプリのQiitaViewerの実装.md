@@ -1,24 +1,3 @@
-**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
-
-- [Qiitaの簡易ビューワーアプリ「QiitaViewer」の機能について](#qiitaの簡易ビューワーアプリ「qiitaviewer」の機能について)
-- [QiitaViewer用にプロジェクトを作成する](#qiitaviewer用にプロジェクトを作成する)
-- [Qiitaの投稿情報を取得する](#qiitaの投稿情報を取得する)
-	- [QiitaのWebAPIについて](#qiitaのwebapiについて)
-	- [Qiitaの投稿情報を取得する機能を実装する](#qiitaの投稿情報を取得する機能を実装する)
-- [Qiitaの投稿情報を取得した後に画面に表示する](#qiitaの投稿情報を取得した後に画面に表示する)
-	- [取得した結果をTableViewを活用して画面に表示する(1)](#取得した結果をtableviewを活用して画面に表示する1)
-	- [取得した結果をTableViewを活用して画面に表示する(2)](#取得した結果をtableviewを活用して画面に表示する2)
-
-## Qiitaの簡易ビューワーアプリ「QiitaViewer」の機能について
-
-この章ではQiitaの簡易ビューワーアプリのQiitaViewerの実装について解説していきます。これから実装するアプリの機能についてまずは簡単にまとめておこうと思います
-
-本書での目的は「標準のAPIを利用しつつも、少ない手間とちょっとしたアイデアで、標準APIを使ってる用に見せないためのTIPSを紹介する」ことを主眼としているため、ビューワーアプリとしての機能はシンプルなものにとどめようと考えています。
-
-そのためQiitaの投稿情報を取得して、取得した投稿情報をTableViewを利用して配置する程度にとどめます。
-
-それ以外の機能、例えば、Qiitaへのログイン処理や、Qiita上のユーザのフォロー機能といったQiitaのAPIをフル活用したアプリの開発は目指さないことにします
-
 ## QiitaViewer用にプロジェクトを作成する
 
 Titanium Studioを起動して、QiitaViewer用にプロジェクトを作成するためにFile → New → Mobile Project と進みます
