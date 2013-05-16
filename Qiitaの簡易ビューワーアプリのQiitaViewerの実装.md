@@ -108,9 +108,9 @@ Titanium Mobileで実装をはじめる前に、Qiitaの投稿情報を取得す
 Titanium MobileでQiitaのようなWebAPIと連携するアプリを開発する場合に、標準機能のhttpCLientを活用することで簡単に実現できます。まずはhttpCLientの使い方について解説をします。
 
 
-#### プロジェクト作成時に自動的に生成されたapp.jsの中身を全て削除します。
+1. プロジェクト作成時に自動的に生成されたapp.jsの中身を全て削除します。
 
-#### その後に以下を記述します
+2. その後に以下を記述します
 
 ```javascript
 var xhr,qiitaURL,method;
@@ -136,15 +136,21 @@ xhr.timeout = 5000;
 xhr.send();
 ```
 
-#### 動作確認するために、buildします。
+動作確認するために、buildした結果は以下のとおりです
 
-iPhone Simulatorを選択した場合：以下の様な画面になります
+<table>
+<th>iPhone起動時の画面キャプチャ</th>
+<th>Android起動時の画面キャプチャ</th>
+<tr>
+<td>
+<a href="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-httpClient-iphone-001.jpg" target="_blank"><img src="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-httpClient-iphone-001.jpg" alt="iPhone Simulator"></a>
+</td>
+<td>
+<a href="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-httpClient-android-001.jpg" target="_blank"><img src="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-httpClient-android-001.jpg" alt="Android起動時の画面キャプチャ"></a>
+</td>
+</tr>
+</table>
 
-![iPhone起動時の画面キャプチャ](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-httpClient-iphone-001.jpg)
-
-Android Emulatorを選択した場合：以下の様な画面になります
-
-![Android起動時の画面キャプチャ](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-httpClient-android-001.jpg)
 
 シミュレーターの画面には何も標示されずコンソール上に複数の文字が標示されるかと思いますので、その点が確認できたらOKなので、次で画面に表示する方法について解説します
 
@@ -175,19 +181,16 @@ xhr.onerror = function(e) { // (5)
 xhr.timeout = 5000;
 xhr.send();
 ```
-(1)httpClientを利用するためのオブジェクトを生成します
 
-(2)open()メソッドを使ってQiitaのWebAPIにアクセスします。
+1. httpClientを利用するためのオブジェクトを生成します
 
-最初の引数にHTTPメソッドを指定しますが、Qiitaの投稿の取得をする場合には、GETメソッドを指定する必要があります（詳しくは[Qiitaのドキュメント](http://qiita.com/docs#13)を参照してください)
+2. open()メソッドを使ってQiitaのWebAPIにアクセスします。最初の引数にHTTPメソッドを指定しますが、Qiitaの投稿の取得をする場合には、GETメソッドを指定する必要があります（詳しくは[Qiitaのドキュメント](http://qiita.com/docs#13)を参照してください)次の引数で投稿情報を取得するQiitaのエンドポイントとなるURLを指定します。
 
-次の引数で投稿情報を取得するQiitaのエンドポイントとなるURLを指定します。
+3. QiitaのWebAPIにアクセスして、接続成功したかどうかを判定して、その後の処理を実施します。具体的にはthis.statusの値を確認して、値が200の場合には接続成功しているため該当する処理を実施します
 
-(3)QiitaのWebAPIにアクセスして、接続成功したかどうかを判定して、その後の処理を実施します。具体的にはthis.statusの値を確認して、値が200の場合には接続成功しているため該当する処理を実施します
+4. this.responseTextの値を確認することで、サーバから取得できた値をテキスト形式で取得できます。this.responseTextは見た目はJSON形式になっていますが、そのまま変数に代入すると文字列としてその後処理されてしまうため、JSON.parse()を使って、JSON化した状態で変数に格納します
 
-(4)this.responseTextの値を確認することで、サーバから取得できた値をテキスト形式で取得できます。this.responseTextは見た目はJSON形式になっていますが、そのまま変数に代入すると文字列としてその後処理されてしまうため、JSON.parse()を使って、JSON化した状態で変数に格納します
-
-(5)例えば、QiitaのWebAPIにアクセスして、150リクエスト/1時間というAPIの利用制限に引っかかってしまう場合などはエラーになり、その時にはonerrorイベントが呼び出されます。
+5. 例えば、QiitaのWebAPIにアクセスして、150リクエスト/1時間というAPIの利用制限に引っかかってしまう場合などはエラーになり、その時にはonerrorイベントが呼び出されます。
 
 イメージとしては以下のような対応関係になります
 
@@ -270,6 +273,13 @@ xhr.onerror = function(e) {
 xhr.send();
 ```
 
+1. body.lengthの値を確認することでWebAPIから取得した投稿件数が確認できるので、その件数分ループして、投稿情報を１つづつ取り出していきます
+2. 投稿情報の要素を格納するためにTableViewRowを生成します
+3. 投稿情報のタイトル部分を格納するためにLabelを生成します
+4. 上記で生成したLabelをTableViewRowに配置します
+5. TableViewRowを配列rowsに挿入します
+6. WebAPIから取得した投稿件数分のTableViewRowが配列rowsに格納されているので、その情報をTableViewに表示するために、setDataメソッドを使います
+
 上記をbuildして、iPhone、AndroidのEmulatorで表示した場合以下の様になります
 
 <table>
@@ -283,8 +293,6 @@ xhr.send();
 <a href="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-httpClient-android-002.jpg" target="_blank"><img src="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-httpClient-android-002.jpg" alt="iPhone Simulator"></a>
 </tr>
 </table>
-
-
 
 
 ### 取得した結果をTableViewを活用して画面に表示する(2)
