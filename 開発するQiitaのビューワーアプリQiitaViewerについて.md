@@ -1,3 +1,8 @@
+**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+
+- [Qiitaの簡易ビューワーアプリ「QiitaViewer」の機能について](#qiitaの簡易ビューワーアプリ「qiitaviewer」の機能について)
+- [アプリケーションの仕様について](#アプリケーションの仕様について)
+
 ## Qiitaの簡易ビューワーアプリ「QiitaViewer」の機能について
 
 本書での目的は「標準のAPIを利用しつつも、少ない手間とちょっとしたアイデアで、標準APIを使ってる用に見せないためのTIPSを紹介する」ことを主眼としているため、QiitaのWebAPIを通じて取得した投稿情報を表示するシンプルなものにとどめようと考えています。
