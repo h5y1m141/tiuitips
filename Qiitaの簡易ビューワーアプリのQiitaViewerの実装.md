@@ -297,8 +297,121 @@ xhr.send();
 
 ### 取得した結果をTableViewを活用して画面に表示する(2)
 
-先程は、タイトルのみ表示する方法について解説しましたが、タイトルだけではなく投稿したユーザのアイコンと本文の一部をTableViewを活用して表示する方法について解説します
+先程は、タイトルのみ表示する方法について解説しましたが、タイトルだけではなく投稿したユーザのアイコンをTableViewを活用して表示する方法について解説します
 
 図にすると以下の様な処理になります。
 
 ![概念図２](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-tableView-overview-002.jpg)
+
+投稿したユーザのアイコンを表示するために、TitaniumのImageViewを以下のように活用します。
+
+```javascript
+// 一部抜粋
+imagePath = body[_i].user.profile_image_url;
+iconImage = Ti.UI.createImageView({
+  width:40,
+  height:40,
+  top:5,
+  left:5,
+  defaultImage:"logo.png",
+  image: imagePath
+});
+row.add(iconImage);
+```
+
+今回のようなWebAPIを通じて画像を取得して表示するような場合、ネットワークの回線状況によってはすぐに標示されるとは限りません。
+
+そのため、ImageViewのdefaultImageというプロパティに、あらかじめローカルに準備しておいた画像を指定することで、
+
+1. 最初にローカルの画像が表示
+2. 画像のダウンロード完了時に、ローカルの画像とリモートから取得した画像が入れ替わる
+
+という処理が自動的にされるので、このdefaultImageは積極的に活用したほうがよいでしょう。
+
+上記をbuildして、iPhone、AndroidのEmulatorで表示した場合以下の様になります
+
+<table>
+<th>iPhone起動時の画面キャプチャ</th>
+<th>Android起動時の画面キャプチャ</th>
+<tr>
+<td>
+<a href="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-tableView-iphone-001.jpg" target="_blank"><img src="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-tableView-iphone-001.jpg" alt="iPhone Simulator"></a>
+</td>
+<td>
+<a href="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-tableView-android-001.jpg" target="_blank"><img src="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-tableView-android-001.jpg" alt="iPhone Simulator"></a>
+</tr>
+</table>
+
+タイトルと投稿したユーザのアイコンをTableViewを表示するサンプルのソースコード全体は以下になります
+
+```javascript
+var xhr,qiitaURL,method,mainTable,win;
+mainTable = Ti.UI.createTableView({
+  width: 320,
+  height:480,
+  backgroundColor:"#fff",
+  left: 0,
+  top: 0
+});
+win = Ti.UI.createWindow({
+  title:'QiitaViewer'
+});
+
+qiitaURL = "https://qiita.com/api/v1/items";
+method = "GET";
+xhr = Ti.Network.createHTTPClient();
+xhr.open(method,qiitaURL);
+xhr.onload = function(){
+  var body,_i ,_len ,row ,rows,textLabel,iconImage,imagePath;
+  if (this.status === 200) {
+    body = JSON.parse(this.responseText);
+    rows = [];
+    for (_i = 0, _len = body.length; _i < _len; _i++) {
+      row = Ti.UI.createTableViewRow({
+        width: 'auto',
+        height:60,
+        borderWidth: 0,
+		className:'entry',
+        color:"#222"
+      });
+      textLabel = Ti.UI.createLabel({
+        width:250,
+        height:30,
+        top:5,
+        left:60,
+        color:'#222',
+        font:{
+          fontSize:16,
+          fontWeight:'bold'
+        },
+        text:body[_i].title
+      });
+      imagePath = body[_i].user.profile_image_url;
+      iconImage = Ti.UI.createImageView({
+        width:40,
+        height:40,
+        top:5,
+        left:5,
+        defaultImage:"logo.png",
+        image: imagePath
+      });
+
+      row.add(textLabel);
+      row.add(iconImage);
+      rows.push(row);
+    }
+    mainTable.setData(rows);
+    win.add(mainTable);
+    win.open();
+
+  } else {
+    Ti.API.info("error:status code is " + this.status);
+  }
+};
+xhr.onerror = function(e) {
+  var error;
+  error = JSON.parse(this.responseText);
+  Ti.API.info(error.error);
+};
+xhr.send();
+```
