@@ -413,6 +413,7 @@ xhr.onerror = function(e) {
   error = JSON.parse(this.responseText);
   Ti.API.info(error.error);
 };
+xhr.timeout = 5000;
 xhr.send();
 ```
 QiitaViewerの機能としてはひとまずここまでにとどめることにします。
