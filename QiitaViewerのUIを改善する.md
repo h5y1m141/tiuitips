@@ -1,35 +1,347 @@
-## QiitaViewerのUIを改善する
+前の章で少ない手間とちょっとしたアイデアでUIを改善する考え方について解説しましたので、それを踏まえてQiitaViewerのUIを改善していきます
 
-前の章でQiitaViewerの基本機能の実装が完成したので、この章では、少ない手間とちょっとしたアイデアで、QiitaViewerのUIを改善していきます
+まずは改善前と改善後のキャプチャを以下に示します
 
-## アプリのUIデザインは「ズルいデザインテクニック」を活用する
+<table>
+<th></th>
+<th>iPhoneの画面キャプチャ</th>
+<th>Androidの画面キャプチャ</th>
+<tr>
+<td>Before</td>
+<td>
+<a href="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-tableView-iphone-001.jpg" target="_blank"><img src="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-tableView-iphone-001.jpg" alt="iPhone Simulator" style="max-width:100%;"></a>
+</td>
 
-少ない手間とちょっとしたアイデアでUIを改善する際のベースとなる考えについて1つ紹介したい記事があるので、まずはそれについて触れて行きたいと思います
+<td>
+<a href="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-tableView-android-001.jpg" target="_blank"><img src="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-tableView-android-001.jpg" alt="Android Simulator" style="max-width:100%;"></a>
+</td>
 
-@ITというニュースサイトは大抵の方はご存じかと思います
+</tr>
+<tr>
+<td>After</td>
+<td>
+<a href="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-tableView-iphone-002.jpg" target="_blank"><img src="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-tableView-iphone-002.jpg" alt="背景をグラデーション設定したiPhone Simulator" style="max-width:100%;"></a>
+</td>
 
-こちらのサイトの[HTML5 + UX : HTML5とUXの総合情報フォーラム](http://www.atmarkit.co.jp/ait/subtop/ux/)というカテゴリの中に[少ない手間と知識でそれなりに見せる、ズルいデザインテクニック](http://www.atmarkit.co.jp/ait/articles/1212/06/news004.html)という記事があります。
+<td>
+<a href="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-tableView-android-002.jpg" target="_blank"><img src="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-tableView-android-002.jpg" alt="背景をグラデーション設定したAndroid Simulator" style="max-width:100%;"></a>
+</td>
 
-上記記事で
+</tr>
+</table>
 
-> Webプログラマ、Webエンジニアの皆さんが、個人で作るWebサービスやハッカソンなどで、短期間に集中してサービス開発してローンチしたいときに、もうちょっと自分でイイ感じにデザインできるといいなあという声をよく聞きます。
->
->この企画は、そんなプログラマが、少ない手間で簡単に、ちょっといい感じのデザインに見せるための、ちょっとした小ズルいTipsを紹介します。
+## TableViewのbackgroundGradientプロパティを活用
 
-ということが書かれていましたが、この考えを取り入れることで、QiitaViewerのUIを改善していくことを目指していきます
+Qiitaの開発者向けのAPIを通じて投稿情報を取得した結果をTableViewを活用して表示するようにQiitaViewerを実装していましたが、このTableViewの背景色の設定を、color プロパティではなくbackgroundGradientプロパティを設定することで上記のような UI を実現することが出来ます
 
-ズルいデザインテクニックとしていくつか紹介されていますが、Titaniumでの開発で一番使えそうだと個人的に感じたズルいグラデーションを取り上げることにします
+私の手元の環境ではiPhoneとAndroid とで少しだけ実装方法が異なるのでその部分に触れながら以下でソースコードの解説をしていきます
 
-## ズルいグラデーションとは?
+## TableViewRowのbackgroundGradientプロパティがAndroid で反映されない
 
-[SassやCompassを使って、ズルいデザインテクニック (1/2)](http://www.atmarkit.co.jp/ait/articles/1302/26/news059.html)という記事の中でズルいグラデーションという内容が取り上げられているので、そこから一部引用します
+[Titanium MobileのAPI リファレンス](http://docs.appcelerator.com/titanium/latest/)を見る限り TableViewRowのbackgroundGradientプロパティはiPhone・Android両対応のはずですが、なぜかAndroid だけうまく反映されません。また以下のように他の方でも似たようなことが生じているようです
 
->ベタ塗り一歩手前くらいの、微妙な明度差のグラデーションで本物っぽい質感を出そう
->
->一見、1色でベタ塗りにしたように見えるけど、よく見ると微妙に上下で色の明るさが異なるグラデーションを、「ズルいグラデーション」と呼んでいます。
+- [Titanium Android の TableViewRow は backgroundGradient が効かない](http://qiita.com/cathandnya/items/176ba1c2ca699b55cdd0)
+
+> タイトルで言いたいことを言ってしまった。
+iOSは効くけどAndroidは効かない。
+
+- [backgroundGradient in a tableViewRow](http://developer.appcelerator.com/question/153579/backgroundgradient-in-a-tableviewrow)
+
+> i can see perfectly the gradient in the browser, but in emulator and the Android device i can see the row but i can't see the gradient.
+
+そのため、Androidについては、TableViewRowの backgroundGradient は利用せず、TableViewRowの上にViewを配置して、そのViewに対して backgroundGradient プロパティを設定することで同じUIを実現することが出来ます
+
+## iPhoneとAndroidとで処理を分ける方法
+
+ご存知の方が多いかと思いますが、実行中のアプリのプラットフォームのOS名は Titanium.Platform.osname というAPIを活用することで確認できます。
+
+そのため
+```javascript
+if(Titanium.Platform.osname === "iphone"){
+  // iPhoneの場合の処理
+  // ソースは後述
+
+}else{
+  // Androidの場合の処理
+  // ソースは後述
+}
+```
+のようにすることで、iPhoneとAndroidで処理を分けることが出来ます
+
+### iPhoneの場合の処理
+
+iPhoneの場合には、TableViewRowの backgroundGradient が活用できるので以下の様にする事で、最初の画面キャプチャーのようなUIが実現できます
+
+```javascript
+if(Titanium.Platform.osname==="iphone"){
+  // iPhoneの場合の処理
+  row = Ti.UI.createTableViewRow({
+    width: 'auto',
+    height:60,
+    borderWidth: 0,
+	  className:'entry',
+    backgroundGradient: {
+      type: 'linear',
+      startPoint: {
+        x: '0%',
+        y: '0%'
+      },
+      endPoint: {
+        x: '0%',
+        y: '100%'
+      },
+      colors: colorSet
+    }
+
+  });
+  textLabel = Ti.UI.createLabel({
+    width:250,
+    height:30,
+    top:5,
+    left:60,
+    color:'#222',
+    font:{
+      fontSize:16,
+      fontWeight:'bold'
+    },
+    text:body[_i].title
+  });
+  imagePath = body[_i].user.profile_image_url;
+  iconImage = Ti.UI.createImageView({
+    width:40,
+    height:40,
+    top:5,
+    left:5,
+    borderColor:"#bbb",
+    borderWidth:1,
+    defaultImage:"logo.png",
+    image: imagePath
+  });
+
+  row.add(textLabel);
+  row.add(iconImage);
+}else{
+  // Androidの場合の処理
+
+}
+```
 
 
-このような考え方を取り入れることで、Titanium標準のAPIだけで作ったとは思えないようなUIが比較的簡単に作ることができるので、これ以降で具体的な実装方法について説明します
+### Androidの場合の処理
 
-## Titanium MobileにおけるUIのグラデーション設定
+Androidの場合には、TableViewRowの上にViewを配置して、Viewの backgroundGradient を活用することで最初の画面キャプチャーのようなUIが実現できます
 
+```javascript
+if(Titanium.Platform.osname==="iphone"){
+  // iPhoneの場合の処理
+  // 省略
+}else{
+  // Androidの場合の処理
+  row = Ti.UI.createTableViewRow({
+    width: 'auto',
+    height:60,
+    borderWidth: 0,
+	  className:'entry'
+
+  });
+  view = Ti.UI.createView({
+    width: 'auto',
+    height:60,
+    backgroundGradient: {
+      type: 'linear',
+      startPoint: {
+        x: '0%',
+        y: '0%'
+      },
+      endPoint: {
+        x: '0%',
+        y: '100%'
+      },
+      color:colorSet
+    }
+  });
+  textLabel = Ti.UI.createLabel({
+    width:250,
+    height:30,
+    top:5,
+    left:60,
+    color:'#222',
+    font:{
+      fontSize:16,
+      fontWeight:'bold'
+    },
+    text:body[_i].title
+  });
+  imagePath = body[_i].user.profile_image_url;
+  iconImage = Ti.UI.createImageView({
+    width:40,
+    height:40,
+    top:5,
+    left:5,
+    borderColor:"#bbb",
+    borderWidth:1,
+    defaultImage:"logo.png",
+    image: imagePath
+  });
+  view.add(textLabel);
+  view.add(iconImage);
+  row.add(view);
+}
+```
+
+## 最終的なソースコード
+
+```javascript
+var xhr,qiitaURL,method,mainTable,win,view,colorSet;
+mainTable = Ti.UI.createTableView({
+  width: 320,
+  height:480,
+  backgroundColor:"#fff",
+  separatorColor:"#ccc",
+  left: 0,
+  top: 0
+});
+win = Ti.UI.createWindow({
+  title:'QiitaViewer'
+});
+
+qiitaURL = "https://qiita.com/api/v1/items";
+method = "GET";
+
+xhr = Ti.Network.createHTTPClient();
+xhr.open(method,qiitaURL);
+xhr.onload = function(){
+  var body,_i ,_len ,row ,rows,textLabel,iconImage,imagePath;
+  if (this.status === 200) {
+    body = JSON.parse(this.responseText);
+    rows = [];
+    colorSet = [
+      {
+        color: '#f8f8f8',
+        position: 0.0
+      },{
+        color: '#f2f2f2',
+        position: 0.7
+      },{
+        color: '#e8e8e8',
+        position: 1.0
+      }
+    ];
+    for (_i = 0, _len = body.length; _i < _len; _i++) {
+      if(Titanium.Platform.osname==="iphone"){
+        row = Ti.UI.createTableViewRow({
+          width: 'auto',
+          height:60,
+          borderWidth: 0,
+	  className:'entry',
+          backgroundGradient: {
+            type: 'linear',
+            startPoint: {
+              x: '0%',
+              y: '0%'
+            },
+            endPoint: {
+              x: '0%',
+              y: '100%'
+            },
+            colors: colorSet
+          }
+
+        });
+        textLabel = Ti.UI.createLabel({
+          width:250,
+          height:30,
+          top:5,
+          left:60,
+          color:'#222',
+          font:{
+            fontSize:16,
+            fontWeight:'bold'
+          },
+          text:body[_i].title
+        });
+        imagePath = body[_i].user.profile_image_url;
+        iconImage = Ti.UI.createImageView({
+          width:40,
+          height:40,
+          top:5,
+          left:5,
+          borderColor:"#bbb",
+          borderWidth:1,
+          defaultImage:"logo.png",
+          image: imagePath
+        });
+
+        row.add(textLabel);
+        row.add(iconImage);
+
+      }else{
+        row = Ti.UI.createTableViewRow({
+          width: 'auto',
+          height:60,
+          borderWidth: 0,
+	  className:'entry'
+
+        });
+        view = Ti.UI.createView({
+          width: 'auto',
+          height:60,
+          backgroundGradient: {
+            type: 'linear',
+            startPoint: {
+              x: '0%',
+              y: '0%'
+            },
+            endPoint: {
+              x: '0%',
+              y: '100%'
+            },
+            color:colorSet
+          }
+        });
+        textLabel = Ti.UI.createLabel({
+          width:250,
+          height:30,
+          top:5,
+          left:60,
+          color:'#222',
+          font:{
+            fontSize:16,
+            fontWeight:'bold'
+          },
+          text:body[_i].title
+        });
+        imagePath = body[_i].user.profile_image_url;
+        iconImage = Ti.UI.createImageView({
+          width:40,
+          height:40,
+          top:5,
+          left:5,
+          borderColor:"#bbb",
+          borderWidth:1,
+          defaultImage:"logo.png",
+          image: imagePath
+        });
+        view.add(textLabel);
+        view.add(iconImage);
+        row.add(view);
+
+      }
+      rows.push(row);
+    }
+    mainTable.setData(rows);
+    win.add(mainTable);
+    win.open();
+
+  } else {
+    Ti.API.info("error:status code is " + this.status);
+  }
+};
+xhr.onerror = function(e) {
+  var error;
+  error = JSON.parse(this.responseText);
+  Ti.API.info(error.error);
+};
+
+xhr.send();
+```
