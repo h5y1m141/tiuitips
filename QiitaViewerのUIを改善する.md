@@ -1,4 +1,4 @@
-前の章で少ない手間とちょっとしたアイデアでUIを改善する考え方について解説しましたので、それを踏まえてQiitaViewerのUIを改善していきます
+ここまでの解説を踏まえてQiitaViewerのUIを改善していきます
 
 まずは改善前と改善後のキャプチャを以下に示します
 
@@ -53,9 +53,9 @@ iOSは効くけどAndroidは効かない。
 
 ## iPhoneとAndroidとで処理を分ける方法
 
-ご存知の方が多いかと思いますが、実行中のアプリのプラットフォームのOS名は Titanium.Platform.osname というAPIを活用することで確認できます。
+実行中のアプリのプラットフォームのOS名は Titanium.Platform.osname というAPIを活用することで確認できます。
 
-そのため
+具体的には
 ```javascript
 if(Titanium.Platform.osname === "iphone"){
   // iPhoneの場合の処理

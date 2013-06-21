@@ -105,7 +105,8 @@ Titanium Mobileで実装をはじめる前に、Qiitaの投稿情報を取得す
 
 ### Qiitaの投稿情報を取得する機能を実装する
 
-Titanium MobileでQiitaのようなWebAPIと連携するアプリを開発する場合に、標準機能のhttpCLientを活用することで簡単に実現できます。まずはhttpCLientの使い方について解説をします。
+QiitaのようなWebAPIと連携するアプリを開発する場合に、Titanium Mobile標準機能のhttpCLientを活用することで簡単に実現できます。
+まずはhttpCLientの使い方について解説をします。
 
 
 1. プロジェクト作成時に自動的に生成されたapp.jsの中身を全て削除します。
@@ -326,9 +327,9 @@ row.add(iconImage);
 1. 最初にローカルの画像が表示
 2. 画像のダウンロード完了時に、ローカルの画像とリモートから取得した画像が入れ替わる
 
-という処理が自動的にされるので、このdefaultImageは積極的に活用したほうがよいでしょう。
+という処理が自動的にされるので、このdefaultImageは積極的に活用することをお勧めします
 
-上記をbuildして、iPhone、AndroidのEmulatorで表示した場合以下の様になります
+上記ソースコードをbuildして、iPhone、AndroidのEmulatorで表示した場合以下の様になります
 
 <table>
 <th>iPhone起動時の画面キャプチャ</th>
@@ -342,7 +343,7 @@ row.add(iconImage);
 </tr>
 </table>
 
-タイトルと投稿したユーザのアイコンをTableViewを表示するサンプルのソースコード全体は以下になります
+TableViewを使って投稿情報のタイトルと投稿したユーザのアイコンを表示するソースコード全体は以下になります
 
 ```javascript
 var xhr,qiitaURL,method,mainTable,win;
