@@ -16,11 +16,11 @@
 
 Titanium Studioを起動して、QiitaViewer用にプロジェクトを作成するためにFile → New → Mobile Project と進みます
 
-![選択メニュー](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-project-001.jpg)
+![選択メニュー](image/qiitaviewer-project-001.jpg)
 
 Projectのテンプレートを選択する画面が標示されたら、「Default Project」を選択して次に進みます
 
-![Projectのテンプレート選択画面](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-project-002.jpg)
+![Projectのテンプレート選択画面](image/qiitaviewer-project-002.jpg)
 
 Projectの詳細情報を入力する画面が標示されるので以下のように入力/選択して、finishボタンをクリックします
 
@@ -28,25 +28,25 @@ Projectの詳細情報を入力する画面が標示されるので以下のよ�
 - AppID:info.ti.qiitaviewer
 - ターゲットOS:iPhone、Androidのみチェック。iPad、MobileWebはオフにする
 
-![Projectの詳細情報入力画面](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-project-003.jpg)
+![Projectの詳細情報入力画面](image/qiitaviewer-project-003.jpg)
 
 しばらくすると、以下の様な画面が標示されて、Projectの初期設定が完了します
 
-![Project設定完了後の画面](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-project-004.jpg)
+![Project設定完了後の画面](image/qiitaviewer-project-004.jpg)
 
 念のためこの状態でbuildが出来るかどうか確認するため、Titanium StudioのApp Explorerのrunのアイコンを選択します
 
-![App Explorerの画面キャプチャ](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-project-005.jpg)
+![App Explorerの画面キャプチャ](image/qiitaviewer-project-005.jpg)
 
 <table>
 <th>iPhone起動時の画面キャプチャ</th>
 <th>Android起動時の画面キャプチャ</th>
 <tr>
 <td>
-<a href="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-project-006.jpg" target="_blank"><img src="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-project-006.jpg" alt="iPhone Simulator"></a>
+<a href="image/qiitaviewer-project-006.jpg" target="_blank"><img src="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-project-006.jpg" alt="iPhone Simulator"></a>
 </td>
 <td>
-<a href="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-project-007.jpg" target="_blank"><img src="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-project-007.jpg" alt="iPhone Simulator"></a>
+<a href="image/qiitaviewer-project-007.jpg" target="_blank"><img src="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-project-007.jpg" alt="iPhone Simulator"></a>
 </td>
 </tr>
 </table>
@@ -68,7 +68,7 @@ Titanium Mobileで実装をはじめる前に、Qiitaの投稿情報を取得す
 [https://qiita.com/api/v1/items](https://qiita.com/api/v1/items)
 
 ※Google Chromeでアクセスした時の例
-![ブラウザでアクセスした時のキャプチャ](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-webapi-001.jpg)
+![ブラウザでアクセスした時のキャプチャ](image/qiitaviewer-webapi-001.jpg)
 
 投稿情報は以下の様なJSON形式になりますが、詳しい情報を知りたい方は、[Qiitaのサイトをご覧ください](http://qiita.com/docs#13)
 
@@ -144,10 +144,10 @@ xhr.send();
 <th>Android起動時の画面キャプチャ</th>
 <tr>
 <td>
-<a href="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-httpClient-iphone-001.jpg" target="_blank"><img src="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-httpClient-iphone-001.jpg" alt="iPhone Simulator"></a>
+<a href="image/qiitaviewer-httpClient-iphone-001.jpg" target="_blank"><img src="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-httpClient-iphone-001.jpg" alt="iPhone Simulator"></a>
 </td>
 <td>
-<a href="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-httpClient-android-001.jpg" target="_blank"><img src="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-httpClient-android-001.jpg" alt="Android起動時の画面キャプチャ"></a>
+<a href="image/qiitaviewer-httpClient-android-001.jpg" target="_blank"><img src="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-httpClient-android-001.jpg" alt="Android起動時の画面キャプチャ"></a>
 </td>
 </tr>
 </table>
@@ -195,7 +195,7 @@ xhr.send();
 
 イメージとしては以下のような対応関係になります
 
-![httpClientのonloadとonerrorの対応関係](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-httpClient-overview-001.jpg)
+![httpClientのonloadとonerrorの対応関係](image/qiitaviewer-httpClient-overview-001.jpg)
 
 ## Qiitaの投稿情報を取得した後に画面に表示する
 
@@ -207,7 +207,7 @@ Qiitaの開発者向けのAPIを通じて投稿情報を取得した結果をTab
 
 図にすると以下の様な処理になります。
 
-![概念図１](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-tableView-overview-001.jpg)
+![概念図１](image/qiitaviewer-tableView-overview-001.jpg)
 
 まずは取得した投稿情報のタイトルのみを表示する以下のソースコードをサンプルに順次解説していきます。
 
@@ -288,10 +288,10 @@ xhr.send();
 <th>Android起動時の画面キャプチャ</th>
 <tr>
 <td>
-<a href="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-httpClient-iphone-002.jpg" target="_blank"><img src="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-httpClient-iphone-002.jpg" alt="iPhone Simulator"></a>
+<a href="image/qiitaviewer-httpClient-iphone-002.jpg" target="_blank"><img src="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-httpClient-iphone-002.jpg" alt="iPhone Simulator"></a>
 </td>
 <td>
-<a href="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-httpClient-android-002.jpg" target="_blank"><img src="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-httpClient-android-002.jpg" alt="iPhone Simulator"></a>
+<a href="image/qiitaviewer-httpClient-android-002.jpg" target="_blank"><img src="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-httpClient-android-002.jpg" alt="iPhone Simulator"></a>
 </tr>
 </table>
 
@@ -302,7 +302,7 @@ xhr.send();
 
 図にすると以下の様な処理になります。
 
-![概念図２](https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-tableView-overview-002.jpg)
+![概念図２](image/qiitaviewer-tableView-overview-002.jpg)
 
 投稿したユーザのアイコンを表示するために、TitaniumのImageViewを以下のように活用します。
 
@@ -336,10 +336,10 @@ row.add(iconImage);
 <th>Android起動時の画面キャプチャ</th>
 <tr>
 <td>
-<a href="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-tableView-iphone-001.jpg" target="_blank"><img src="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-tableView-iphone-001.jpg" alt="iPhone Simulator"></a>
+<a href="image/qiitaviewer-tableView-iphone-001.jpg" target="_blank"><img src="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-tableView-iphone-001.jpg" alt="iPhone Simulator"></a>
 </td>
 <td>
-<a href="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-tableView-android-001.jpg" target="_blank"><img src="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-tableView-android-001.jpg" alt="iPhone Simulator"></a>
+<a href="image/qiitaviewer-tableView-android-001.jpg" target="_blank"><img src="https://s3-ap-northeast-1.amazonaws.com/tiuitips/qiitaviewer-tableView-android-001.jpg" alt="iPhone Simulator"></a>
 </tr>
 </table>
 
